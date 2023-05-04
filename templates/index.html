@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Телефонная книга</title>
+    <style>
+        body {
+            background-color: #FFFFE0;
+        }
+        h1, form {
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        form input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 4px;
+            background-color: white;
+        }
+        form input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        form input[type=submit]:hover {
+            background-color: #45a049;
+        }
+        button {
+            background-color: #f44336;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Телефонная книга</h1>
+    <form method="POST">
+        <label        for="name">Имя:</label>
+       <input type="text" id="name" name="name" required>
+       <label for="phone">Телефон:</label>
+       <input type="text" id="phone" name="phone" required>
+       <input type="submit" value="Добавить контакт">
+   </form>
+   <table>
+       <thead>
+           <tr>
+               <th>Имя</th>
+               <th>Телефон</th>
+           </tr>
+       </thead>
+       <tbody>
+           {% for contact in contacts %}
+           <tr>
+               <td>{{ contact.name }}</td>
+               <td>{{ contact.phone }}</td>
+           </tr>
+           {% endfor %}
+       </tbody>
+   </table>
+   <button onclick="clearContacts()">Clear</button>
+   <script>
+       function clearContacts() {
+           if (confirm("Вы уверены, что хотите удалить все контакты?")) {
+               fetch('/clear', { method: 'GET' })
+               .then(response => {
+                   if (response.status === 204) {
+                       location.reload();
+                   }
+               });
+           }
+       }
+   </script>
+   </body>
+   </html>
